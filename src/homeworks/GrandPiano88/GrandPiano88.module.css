@@ -1,0 +1,44 @@
+﻿.app {
+  width: 100%;
+  max-width: 1800px;
+  min-width: 0;
+  margin: 0 auto;
+  padding: 36px 24px;
+}
+
+.header {
+  text-align: center;
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: #2563eb;
+}
+
+.header h1 {
+  margin: 0;
+  color: #0f172a;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.15;
+}
+
+.subtitle {
+  margin: 16px 0 0;
+  color: #475569;
+}
+
+.footer {
+  margin-top: 28px;
+  text-align: center;
+  color: #64748b;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .app {
+    padding: 24px 12px;
+  }
+}
