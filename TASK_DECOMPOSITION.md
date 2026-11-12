@@ -476,3 +476,35 @@ Verification:
 Out of scope:
 Final accessibility audit, Lighthouse audit
 and complete AI Failure Audit.
+
+## Step 5 - Final Verification & Submission
+
+Scope:
+- Verify 88 MIDI notes, note frequencies and key counts.
+- Verify 8-voice polyphony and FIFO voice stealing.
+- Verify recording, overlapping notes and replay timing.
+- Verify AbortController cancellation and audio cleanup.
+- Inspect React.memo using React DevTools Profiler.
+- Verify responsive layouts at 375px, 768px and 1440px.
+- Evaluate accessibility using Chrome Lighthouse.
+- Document real AI failures with supporting evidence.
+- Finalize README, verification report and submission checklist.
+
+Commit plan:
+1. test(hw2): verify piano audio and fifo sequencer
+2. perf(hw2): optimize piano rendering and accessibility
+3. docs(hw2): finalize ai audit and submission checklist
+
+Do not create an empty commit to meet the planned count.
+Preserve existing functionality and Git history.
+
+Required evidence:
+- Automated test output
+- ESLint and production build
+- Manual functional checks
+- React DevTools Profiler
+- Responsive screenshots
+- Lighthouse Accessibility score
+- Real AI failure logs and corresponding fix commits
+
+Submission readiness requires verification, not only successful compilation.
