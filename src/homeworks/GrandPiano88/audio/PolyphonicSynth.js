@@ -6,7 +6,7 @@ export class PolyphonicSynth {
     this.maxVoices = maxVoices
     this.voices = new Map()
     this.nodes = new Set()
-    this.requested = new Set()
+    this.requested = new Map()
     this.onVoiceStolen = onVoiceStolen
     this.disposed = false
   }
@@ -105,7 +105,8 @@ export class PolyphonicSynth {
       throw new RangeError('Frequency must be positive')
     }
 
-    this.requested.add(midi)
+    const request = Symbol(midi)
+    this.requested.set(midi, request)
 
     try {
       await this.ensureContext()
@@ -114,7 +115,7 @@ export class PolyphonicSynth {
       throw error
     }
 
-    if (this.disposed || !this.requested.has(midi)) {
+    if (this.disposed || this.requested.get(midi) !== request) {
       return false
     }
 
