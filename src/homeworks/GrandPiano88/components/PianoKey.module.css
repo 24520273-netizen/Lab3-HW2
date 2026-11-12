@@ -1,0 +1,69 @@
+﻿.key {
+  position: absolute;
+  top: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 0 2px 12px;
+  font: inherit;
+  cursor: pointer;
+  user-select: none;
+  touch-action: none;
+  transition: background-color 80ms ease;
+}
+
+.white {
+  left: calc(var(--white-index) * var(--white-key-width));
+  width: var(--white-key-width);
+  height: var(--white-key-height);
+  z-index: 1;
+  color: #334155;
+  background: linear-gradient(#fff, #e8edf4);
+  border: 1px solid #94a3b8;
+  border-radius: 0 0 5px 5px;
+}
+
+.black {
+  left: calc(
+    var(--white-index) * var(--white-key-width)
+    - var(--black-key-width) / 2
+  );
+  width: var(--black-key-width);
+  height: var(--black-key-height);
+  z-index: 2;
+  color: #f8fafc;
+  background: linear-gradient(#334155, #020617);
+  border: 1px solid #020617;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 2px 3px 4px #0005;
+}
+
+.white.pressed {
+  background: #93c5fd;
+}
+
+.black.pressed {
+  background: #2563eb;
+}
+
+.key:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: -3px;
+  z-index: 3;
+}
+
+.label {
+  font-size: 10px;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+.black .label {
+  font-size: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .key {
+    transition: none;
+  }
+}
