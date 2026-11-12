@@ -1,4 +1,4 @@
-﻿import { midiToFrequency } from '../utils/midi'
+import { midiToFrequency } from '../utils/midi.js'
 
 export class PolyphonicSynth {
   constructor({ maxVoices = 8, onVoiceStolen = () => {} } = {}) {
@@ -118,7 +118,7 @@ export class PolyphonicSynth {
       return false
     }
 
-    const startAt = this.ctx.currentTime
+    const startAt = this._makeRoom()
     const voice = this._createVoice(midi, freqHz, startAt)
 
     voice.gain.gain.exponentialRampToValueAtTime(
@@ -130,6 +130,39 @@ export class PolyphonicSynth {
     return true
   }
 
+  _makeRoom() {
+    let startAt = this.ctx.currentTime
+
+    while (this.nodes.size >= this.maxVoices) {
+      const releaseTail = [...this.nodes].find(
+        (voice) => voice.releasing,
+      )
+
+      if (releaseTail) {
+        this._forceStopVoice(releaseTail)
+        continue
+      }
+
+      const oldest = this.voices.values().next().value
+
+      if (!oldest) {
+        throw new Error('Voice capacity is inconsistent')
+      }
+
+      this.requested.delete(oldest.midi)
+      this._releaseVoice(oldest, 0.005)
+
+      startAt = Math.max(
+        startAt,
+        this.ctx.currentTime + 0.006,
+      )
+
+      this.onVoiceStolen(oldest.midi)
+      break
+    }
+
+    return startAt
+  }
   _releaseVoice(voice, duration = 0.04) {
     if (!voice || voice.ended || voice.releasing) return
 
@@ -195,4 +228,3 @@ export class PolyphonicSynth {
 }
 
 export { midiToFrequency }
-
