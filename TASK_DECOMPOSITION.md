@@ -389,3 +389,22 @@ Each commit must contain meaningful changes and pass the relevant checks.
 Do not commit unverified code.
 
 Do not push until explicitly requested.
+
+## Step 2 - Piano UI and React.memo
+
+Scope: MIDI metadata, accessible piano keys, layout and render isolation.
+
+Commit 1 - Generate 88 MIDI notes and verify 52 white / 36 black.
+Commit 2 - Implement PianoKey with React.memo and safe input handling.
+Commit 3 - Build responsive 88-key keyboard using CSS Modules.
+Commit 4 - Connect pressed-note state and stable callbacks.
+
+Verify:
+- MIDI 21-108, A0-C8, A4=440Hz
+- Mouse, touch and keyboard input
+- Pointer cancellation and focus loss
+- React DevTools Profiler
+- Responsive width 375px
+- ESLint and production build
+
+Audio Engine and FIFO Sequencer are reserved for later steps.
