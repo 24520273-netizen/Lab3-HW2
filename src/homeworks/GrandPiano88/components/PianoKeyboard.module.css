@@ -76,3 +76,59 @@
     padding: 8px;
   }
 }
+
+.scrollArea {
+  display: block;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: auto;
+  scrollbar-color: #64748b #e2e8f0;
+  touch-action: pan-x;
+}
+
+.scrollArea::-webkit-scrollbar {
+  height: 10px;
+}
+
+.scrollArea::-webkit-scrollbar-track {
+  background: #e2e8f0;
+  border-radius: 999px;
+}
+
+.scrollArea::-webkit-scrollbar-thumb {
+  background: #64748b;
+  border-radius: 999px;
+  border: 2px solid #e2e8f0;
+}
+
+.keyboard {
+  min-width: calc(52 * var(--white-key-width));
+}
+
+@media (max-width: 600px) {
+  .scrollArea {
+    margin-bottom: 8px;
+  }
+}
+
+.heading p {
+  color: #334155;
+}
+
+.keyboard {
+  --white-key-width: 44px;
+  --black-key-width: 28px;
+  --white-key-height: 190px;
+  --black-key-height: 120px;
+}
+
+@media (max-width: 600px) {
+  .keyboard {
+    --white-key-width: 44px;
+    --black-key-width: 28px;
+    --white-key-height: 180px;
+    --black-key-height: 115px;
+  }
+}
