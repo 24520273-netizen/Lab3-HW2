@@ -441,3 +441,38 @@ Verification:
 Out of scope:
 Recording, replay, playback speed controls,
 FIFO Sequencer and final AI Failure Audit.
+
+## Step 4 - Recording & FIFO Sequencer
+
+Scope:
+- Record actual note-on and note-off timing.
+- Store midi, freqHz, durationMs and deltaMs.
+- deltaMs is the note-on offset from recording start.
+- Preserve FIFO note-on order and overlapping notes.
+- Replay using the existing PolyphonicSynth.
+- Playback speeds: 0.5x, 1.0x and 2.0x.
+- Use AbortController to cancel playback.
+- Stop only voices owned by replay.
+- Prevent races between live playing and replay.
+- Cleanup timers and pending operations on unmount.
+
+Commit plan:
+1. feat(hw2): implement piano note recording
+2. feat(hw2): implement fifo melody sequencer
+3. feat(hw2): add replay speed and abortable playback
+4. feat(hw2): integrate recording and replay controls
+
+Verification:
+- Record 5 notes and preserve required fields.
+- Finalize held notes when recording stops.
+- Preserve simultaneous and overlapping notes.
+- Verify 0.5x, 1x and 2x timing.
+- Stop prevents pending note-on events.
+- Repeated Play/Stop/Play is safe.
+- Never stop unrelated live voices.
+- Preserve the existing 8-voice FIFO limit.
+- Test, lint and production build.
+
+Out of scope:
+Final accessibility audit, Lighthouse audit
+and complete AI Failure Audit.
