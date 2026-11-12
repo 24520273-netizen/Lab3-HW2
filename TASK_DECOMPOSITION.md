@@ -408,3 +408,36 @@ Verify:
 - ESLint and production build
 
 Audio Engine and FIFO Sequencer are reserved for later steps.
+
+## Step 3 - Audio Engine & Polyphony
+
+Scope:
+- One lazy-created AudioContext.
+- Web Audio oscillator and gain nodes.
+- Note-on and note-off lifecycle.
+- Click-free attack and release envelopes.
+- Maximum 8 active voices.
+- FIFO voice stealing using Map insertion order.
+- React integration, UI synchronization and cleanup.
+
+Commit plan:
+1. feat(hw2): implement web audio synth engine
+2. feat(hw2): add note playback and release envelope
+3. feat(hw2): enforce eight voice fifo polyphony
+4. feat(hw2): connect piano ui to polyphonic audio
+
+Verification:
+- A4 = 440 Hz.
+- A0 and C8 frequency correctness.
+- Single-note and chord playback.
+- Maximum 8 sounding voices.
+- Ninth note steals oldest active voice.
+- No duplicate note for repeated note-on.
+- Rapid press and release.
+- Browser focus loss and component unmount cleanup.
+- React.memo render isolation.
+- ESLint and production build.
+
+Out of scope:
+Recording, replay, playback speed controls,
+FIFO Sequencer and final AI Failure Audit.
