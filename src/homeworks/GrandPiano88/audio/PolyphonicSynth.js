@@ -94,6 +94,83 @@ export class PolyphonicSynth {
     this._cleanupVoice(voice)
   }
 
+  async noteOn(midi, freqHz = midiToFrequency(midi)) {
+    if (this.disposed || this.requested.has(midi)) return false
+
+    if (!Number.isInteger(midi) || midi < 21 || midi > 108) {
+      throw new RangeError('MIDI note must be between 21 and 108')
+    }
+
+    if (!Number.isFinite(freqHz) || freqHz <= 0) {
+      throw new RangeError('Frequency must be positive')
+    }
+
+    this.requested.add(midi)
+
+    try {
+      await this.ensureContext()
+    } catch (error) {
+      this.requested.delete(midi)
+      throw error
+    }
+
+    if (this.disposed || !this.requested.has(midi)) {
+      return false
+    }
+
+    const startAt = this.ctx.currentTime
+    const voice = this._createVoice(midi, freqHz, startAt)
+
+    voice.gain.gain.exponentialRampToValueAtTime(
+      0.18,
+      startAt + 0.015,
+    )
+
+    this.voices.set(midi, voice)
+    return true
+  }
+
+  _releaseVoice(voice, duration = 0.04) {
+    if (!voice || voice.ended || voice.releasing) return
+
+    voice.releasing = true
+
+    if (this.voices.get(voice.midi) === voice) {
+      this.voices.delete(voice.midi)
+    }
+
+    const now = this.ctx.currentTime
+    const param = voice.gain.gain
+
+    if (typeof param.cancelAndHoldAtTime === 'function') {
+      param.cancelAndHoldAtTime(now)
+    } else {
+      param.cancelScheduledValues(now)
+      param.setValueAtTime(Math.max(param.value, 0.0001), now)
+    }
+
+    param.exponentialRampToValueAtTime(
+      0.0001,
+      now + duration,
+    )
+
+    voice.oscillator.stop(now + duration + 0.005)
+  }
+
+  noteOff(midi) {
+    this.requested.delete(midi)
+
+    const voice = this.voices.get(midi)
+    if (voice) this._releaseVoice(voice)
+  }
+
+  allNotesOff() {
+    this.requested.clear()
+
+    for (const voice of [...this.voices.values()]) {
+      this._releaseVoice(voice)
+    }
+  }
   dispose() {
     if (this.disposed) return
     this.disposed = true
@@ -118,3 +195,4 @@ export class PolyphonicSynth {
 }
 
 export { midiToFrequency }
+
